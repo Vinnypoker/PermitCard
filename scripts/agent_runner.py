@@ -1,3 +1,4 @@
+raise SystemExit("DEBUG: NEW AGENT RUNNER FILE IS EXECUTING")
 import os
 import json
 import subprocess
