@@ -1,9 +1,9 @@
 name: Permit Agent
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "*/30 * * * *"   # every 30 minutes
-  workflow_dispatch: {}
+    - cron: "*/30 * * * *"
 
 permissions:
   contents: write
@@ -13,6 +13,7 @@ permissions:
 jobs:
   run-agent:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,9 +27,12 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Show agent runner being executed
+        run: |
+          echo "===== agent_runner.py (first 20 lines) ====="
+          sed -n '1,20p' scripts/agent_runner.py
+          echo "==========================================="
+
       - name: Run agent loop (one task)
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python scripts/agent_runner.py
