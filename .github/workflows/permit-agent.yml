@@ -33,6 +33,11 @@ jobs:
           sed -n '1,20p' scripts/agent_runner.py
           echo "==========================================="
 
-      - name: Run agent loop (one task)
+            - name: Run agent loop (one task)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           python scripts/agent_runner.py
+
